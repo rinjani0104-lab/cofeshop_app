@@ -1,3 +1,10 @@
+@extends('layouts.app')
+
+@section('content')
+
+
+
+
 <!-- HERO SECTION -->
  <div class="container-fluid p-0"
  style="
@@ -92,4 +99,4 @@
         </div>
     </div>
    </div>
-        
+        @endsection

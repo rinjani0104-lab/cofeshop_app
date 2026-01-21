@@ -1,7 +1,15 @@
+@extends('layouts.app')
+
+@section('content')
+
+
+
+
 <!-- HERO SECTION -->
  <section class="bg-[url'('/images/coffe-bg.jpg')] bg-cover bg-center h-[80vh] flex items-center">
     <div class="bg-black/60 w-full h-full flex items-center">
         <div class="container mx-auto px-6 text-white">
+
             <h1 class="text-4xl md:text-6xl font-bold mb-4">
                 Fresh Coffe, <br> Better Mood ☕
                 </h1>
@@ -58,3 +66,4 @@
     Kunjungi Kami
     </a>
     </section>
+    @endsection
