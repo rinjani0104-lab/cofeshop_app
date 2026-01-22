@@ -1,4 +1,4 @@
-@xtends('Layout.app')
+@extends('layouts.app')
 @section('content')
 <div class="container my-5">
 </div>
