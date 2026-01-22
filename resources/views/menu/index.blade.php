@@ -1,69 +1,101 @@
 @extends('layouts.app')
 
+@section('title', 'Menu - Cafein Holic')
+
 @section('content')
-
-
-
-
-<!-- HERO SECTION -->
- <section class="bg-[url'('/images/coffe-bg.jpg')] bg-cover bg-center h-[80vh] flex items-center">
-    <div class="bg-black/60 w-full h-full flex items-center">
-        <div class="container mx-auto px-6 text-white">
-
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                Fresh Coffe, <br> Better Mood ☕
-                </h1>
-                <p class="text-lg md:text-xl ml-6 max-w-xl">
-                    Nikmati kopi terbaik dengan cita rasa autentik dan suasana hangat.
-                </p>
-                <a herf="#menu"
-                class="bg-amer-600 hover:bg-amber-700 px-6 py-3 rounded-full text-white font-semibold transition">
-                Lihat Menu 
-            </a>
-        </div>
-    </div>
- </section>
-
- <!-- ABOUT -->
-  <section class="py-16 bg-white">
-      <div class="container mx-auoto px-6 grid md:grid-cols-2 gap-10 items-center">
-        <img src="/images/about-coffe.jpg" class="rounded-xl shadow-lg" alt="coffe">
-      </div>
-<h2 class=" text-3xl font-bold mb-4">Tentang Kami</h2>
-<p class="text-gray-600 leading-relaxed">
-    Kami menyajikan kopi pilihan dari biji terbaik yang diracik dengan penuh perhatian untuk menghadirkan pengalaman minum kopi yang berkesan.
-</p>
-  </section> 
-
-  <!-- MENU -->
-   <section id="menu" class="py-6 bg-gray-100">
-    <div class="container mx-auto px-6">
-       <h2 class="text-3xl font-bold text-center mb-10">Menu Favorit</h2>
-       
-       <div class="grid md:grid-cols3-3 gap-8">
-        @for ($i = 1; $i <= 3; $i++)
-        <div class="bg-white rounded-xl shadow hover:shadow-xl tarnsition overflow-hidden">
-            <img src="/images/menu{{ $i }}.jpg" class="h-56 w-full object-cover">
-            <div class="p-6"></div>
-                <h3 class="text-xl font-semibold mb-2">Coffe Latte</h3>
-                <p class="text-gray-600 mb-4">
-                    Perpaduan espresso dan susu yang lembut.
-                </p>
-                <span class="text-amber-600 font-bold">Rp 25.000</span>
+    <!-- Menu Hero -->
+    <section class="hero-section" style="background-image: linear-gradient(rgba(60, 42, 33, 0.85), rgba(60, 42, 33, 0.85)), url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); padding: 6rem 0;">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-3">Our Coffee Menu</h1>
+                    <p class="lead mb-0">Discover our carefully curated selection of specialty coffees, teas, and pastries</p>
+                </div>
             </div>
         </div>
-@endfor
-</div>
-</div>
-   </section>
-
-   <!-- CTA -->
-    <section class="py-16 bg-amber-600 text-white text-center">
-        <h2 class="text-3xl font-bold mb-4">Siap Menikmati Kopi Hari Ini?</h2>
-        <p class="mb-6">Datang dan rasakan sendiri kehangatannya</p>    
-        <a herf="#"
-        class="bg-white text-amber-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">
-    Kunjungi Kami
-    </a>
     </section>
-    @endsection
+
+    <!-- Menu Navigation -->
+    <section class="sticky-top bg-cream-light py-3 shadow-sm" style="top: 76px; z-index: 1020;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <nav class="nav nav-pills">
+                        <a class="nav-link rounded-pill mx-1 active" href="#coffee">Coffee</a>
+                        <a class="nav-link rounded-pill mx-1" href="#tea">Tea</a>
+                        <a class="nav-link rounded-pill mx-1" href="#pastries">Pastries</a>
+                        <a class="nav-link rounded-pill mx-1" href="#specialty">Specialty</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coffee Menu -->
+    <section id="coffee" class="pt-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5"><i class="bi bi-cup-hot me-2"></i> Coffee Selection</h2>
+            
+            <div class="row g-4">
+                @foreach($coffeeItems as $item)
+                <div class="col-lg-4 col-md-6 fade-in">
+                    <div class="menu-card hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">{{ $item->name }}</h5>
+                                    <p class="text-muted small mb-0">{{ $item->description }}</p>
+                                </div>
+                                <span class="text-brown fw-bold fs-5">${{ number_format($item->price, 2) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    @if($item->is_popular)
+                                    <span class="badge bg-brown-light text-white me-2">Popular</span>
+                                    @endif
+                                    @if($item->is_new)
+                                    <span class="badge bg-beige text-brown-dark">New</span>
+                                    @endif
+                                </div>
+                                <a href="{{ url('/menu/' . $item->id) }}" class="btn btn-brown btn-sm rounded-pill">
+                                    Details <i class="bi bi-chevron-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Tea Menu -->
+    <section id="tea" class="bg-cream pt-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5"><i class="bi bi-cup-straw me-2"></i> Tea & Infusions</h2>
+            
+            <div class="row g-4">
+                @foreach($teaItems as $item)
+                <div class="col-lg-4 col-md-6 fade-in">
+                    <div class="menu-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">{{ $item->name }}</h5>
+                                    <p class="text-muted small mb-0">{{ $item->description }}</p>
+                                </div>
+                                <span class="text-brown fw-bold fs-5">${{ number_format($item->price, 2) }}</span>
+                            </div>
+                            <div class="text-end">
+                                <a href="{{ url('/menu/' . $item->id) }}" class="btn btn-outline-brown btn-sm rounded-pill">
+                                    Details <i class="bi bi-chevron-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+@endsection

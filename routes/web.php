@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    $featuredItems = [];
+    return view('home', compact('featuredItems'));
 });
 
 Route::get('/menu', function () {

@@ -1,0 +1,496 @@
+/* Cafein Holic - Custom Styles */
+
+/* Color Variables */
+:root {
+    --brown-dark: #3c2a21;
+    --brown: #5c3d2e;
+    --brown-light: #b85c38;
+    --beige: #e0c097;
+    --cream: #f7f3e9;
+    --cream-light: #fffbf5;
+    --transition: all 0.3s ease;
+}
+
+/* Base Styles */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--brown-dark);
+    background-color: var(--cream-light);
+    padding-top: 76px; /* For fixed navbar */
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-weight: 600;
+}
+
+.text-brown {
+    color: var(--brown) !important;
+}
+.text-brown-dark {
+    color: var(--brown-dark) !important;
+}
+.text-cream {
+    color: var(--cream) !important;
+}
+.text-beige {
+    color: var(--beige) !important;
+}
+
+.bg-brown {
+    background-color: var(--brown) !important;
+}
+.bg-brown-dark {
+    background-color: var(--brown-dark) !important;
+}
+.bg-cream {
+    background-color: var(--cream) !important;
+}
+.bg-beige {
+    background-color: var(--beige) !important;
+}
+
+/* Navbar */
+#mainNavbar {
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 251, 245, 0.95) !important;
+}
+
+#mainNavbar.scrolled {
+    box-shadow: 0 5px 20px rgba(60, 42, 33, 0.1);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: var(--brown-dark) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--brown-light) !important;
+}
+
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--brown-light);
+    left: 0;
+    bottom: 0;
+    transition: var(--transition);
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+/* Buttons */
+.btn-brown {
+    background-color: var(--brown);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.8rem;
+    transition: var(--transition);
+}
+
+.btn-brown:hover {
+    background-color: var(--brown-light);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(92, 61, 46, 0.2);
+}
+
+.btn-outline-brown {
+    border: 2px solid var(--brown);
+    color: var(--brown);
+    background: transparent;
+    transition: var(--transition);
+}
+
+.btn-outline-brown:hover {
+    background-color: var(--brown);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero-section {
+    background:
+        linear-gradient(rgba(60, 42, 33, 0.8), rgba(60, 42, 33, 0.8)),
+        url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 8rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%235C3D2E' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Cards */
+.menu-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.menu-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(92, 61, 46, 0.15);
+}
+
+.menu-card img {
+    height: 220px;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.menu-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--brown-light);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Section Spacing */
+section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 3rem;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background: var(--beige);
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+}
+
+/* Form Styles */
+.form-control,
+.form-select {
+    border: 1px solid var(--beige);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    transition: var(--transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brown);
+    box-shadow: 0 0 0 0.25rem rgba(92, 61, 46, 0.25);
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    section {
+        padding: 3rem 0;
+    }
+
+    .hero-section {
+        padding: 6rem 0;
+    }
+
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Hover Effects */
+.hover-lift {
+    transition: var(--transition);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--beige);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--brown-light);
+}
+/* Additional CSS for enhanced UI/UX */
+
+/* Reservation Steps */
+.reservation-step {
+    animation: fadeIn 0.5s ease;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: var(--brown);
+    color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Contact Page */
+.contact-info .icon-wrapper {
+    flex-shrink: 0;
+}
+
+.social-icon {
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--brown-light) !important;
+    transform: translateY(-3px);
+}
+
+/* Menu Detail Page */
+.rating i {
+    font-size: 1.1rem;
+}
+
+.customization-options .form-check {
+    min-width: 120px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Toast Notifications */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border-left: 4px solid var(--brown);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+    max-width: 350px;
+}
+
+/* Loading Spinner */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--cream);
+    border-top: 5px solid var(--brown);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Tables */
+.table-responsive-custom {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--brown);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(92, 61, 46, 0.3);
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.fab:hover {
+    background-color: var(--brown-light);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(92, 61, 46, 0.4);
+}
+
+/* Mobile Menu Improvements */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background-color: white;
+        padding: 20px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section .display-4 {
+        font-size: 2.2rem;
+    }
+
+    .menu-card {
+        margin-bottom: 20px;
+    }
+
+    .time-slot {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .table-type-card {
+        margin-bottom: 15px;
+    }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .menu-card img {
+        height: 180px;
+    }
+
+    .hero-section {
+        padding: 5rem 0;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .footer,
+    .btn,
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        padding-top: 0;
+    }
+
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+}
