@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     $featuredItems = [];
@@ -8,8 +9,8 @@ Route::get('/', function () {
 });
 
 Route::get('/menu', function () {
-    $coffeeItems = [];
-    $teaItems = [];
+    $coffeeItems = App\Models\Menu::where('category', 'coffee')->get();
+    $teaItems = App\Models\Menu::where('category', 'tea')->get();
     return view('menu.index', compact('coffeeItems', 'teaItems'));
 });
 
