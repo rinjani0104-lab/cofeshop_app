@@ -8,7 +8,9 @@ Route::get('/', function () {
 });
 
 Route::get('/menu', function () {
-    return view('menu.index');
+    $coffeeItems = [];
+    $teaItems = [];
+    return view('menu.index', compact('coffeeItems', 'teaItems'));
 });
 
 Route::get('/menu/detail', function () {
