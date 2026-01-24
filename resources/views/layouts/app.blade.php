@@ -17,40 +17,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm py-3" id="mainNavbar">
-        <div class="container">
-            <a class="navbar-brand fw-bold fs-3 text-brown-dark" href="{{ url('/') }}">
-                <i class="bi bi-cup-hot-fill me-2 text-brown"></i>Cafein Holic
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/menu') }}">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/order/form') }}">Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/reservation') }}">Reservation</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
-                    </li>
-                </ul>
-                <div class="d-flex ms-lg-4 mt-3 mt-lg-0">
-                    <a href="{{ url('/order/form') }}" class="btn btn-brown rounded-pill px-4">
-                        <i class="bi bi-cart3 me-1"></i> Order Now
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('components.navbar')
 
     <!-- Main Content -->
     <main>
