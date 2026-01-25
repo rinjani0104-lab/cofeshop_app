@@ -26,6 +26,10 @@ Route::get('/reservation', function () {
     return view('reservation');
 });
 
+Route::get('/about', function () {
+    return view('about');
+});
+
 Route::get('/contact', function () {
     return view('contact');
 });

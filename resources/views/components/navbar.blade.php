@@ -1,72 +1,95 @@
 @php
-    // Get current route for active state
-    $currentRoute = request()->route()->getName();
+    // Current route untuk active state
+    $currentRoute = request()->route()->getName() ?? '';
     
-    // Navigation items
+    // Navigation items dengan icon dan URL
     $navItems = [
         'home' => [
             'name' => 'Home',
             'url' => url('/home'),
-            'icon' => 'bi-house'
+            'icon' => 'bi-house',
+            'order' => 1
         ],
         'menu' => [
             'name' => 'Menu',
             'url' => url('/menu'),
-            'icon' => 'bi-menu-button-wide'
+            'icon' => 'bi-cup-hot',
+            'order' => 2
         ],
-        'order' => [
-            'name' => 'Order Online',
+        'order.form' => [
+            'name' => 'Order',
             'url' => url('/order/form'),
-            'icon' => 'bi-cart3'
+            'icon' => 'bi-cart3',
+            'order' => 3
         ],
         'reservation' => [
             'name' => 'Reservation',
             'url' => url('/reservation'),
-            'icon' => 'bi-calendar-check'
+            'icon' => 'bi-calendar-check',
+            'order' => 4
         ],
         'about' => [
-            'name' => 'About Us',
+            'name' => 'About',
             'url' => url('/about'),
-            'icon' => 'bi-info-circle'
+            'icon' => 'bi-info-circle',
+            'order' => 5
         ],
         'contact' => [
             'name' => 'Contact',
             'url' => url('/contact'),
-            'icon' => 'bi-telephone'
+            'icon' => 'bi-telephone',
+            'order' => 6
         ]
     ];
+    
+    // Sort by order
+    uasort($navItems, function($a, $b) {
+        return $a['order'] <=> $b['order'];
+    });
+    
+    // Cart items count (simulated)
+    $cartCount = 3;
 @endphp
 
-<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm py-3" id="mainNavbar">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNavbar">
     <div class="container">
-        <!-- Logo/Brand -->
-        <a class="navbar-brand fw-bold fs-3 text-brown-dark" href="{{ url('/') }}">
-            <i class="bi bi-cup-hot-fill me-2 text-brown"></i>Cafein Holic
+        <!-- Logo / Brand -->
+        <a class="navbar-brand fw-bold" href="{{ url('/') }}">
+            <div class="d-flex align-items-center">
+                <div class="logo-icon me-2">
+                    <i class="bi bi-cup-hot-fill"></i>
+                </div>
+                <div>
+                    <span class="brand-name">Cafein Holic</span>
+                    <small class="brand-subtitle d-none d-md-block">Premium Coffee</small>
+                </div>
+            </div>
         </a>
 
         <!-- Mobile Toggle Button -->
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarContent" aria-controls="navbarContent" 
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-            <span class="visually-hidden">Toggle navigation</span>
         </button>
 
-        <!-- Navigation Items -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Navigation Menu -->
+            <ul class="navbar-nav mx-auto">
                 @foreach($navItems as $key => $item)
                     @php
-                        $isActive = request()->is($key) || request()->is($key . '/*') || 
-                                    (isset($activePage) && $activePage === $key) ||
-                                    ($currentRoute === $key);
+                        $isActive = request()->is($key) || 
+                                    request()->is($key . '/*') || 
+                                    $currentRoute === $key ||
+                                    (isset($activePage) && $activePage === $key);
                     @endphp
-                    <li class="nav-item" data-nav-item="{{ $key }}">
-                        <a class="nav-link {{ $isActive ? 'active' : '' }}" 
+                    <li class="nav-item mx-1">
+                        <a class="nav-link px-3 py-2 rounded {{ $isActive ? 'active' : '' }}" 
                            href="{{ $item['url'] }}"
-                           data-nav-link="{{ $key }}">
-                            @if(isset($item['icon']))
-                                <i class="bi {{ $item['icon'] }} d-lg-none d-xl-inline me-2"></i>
-                            @endif
-                            {{ $item['name'] }}
+                           data-nav="{{ $key }}">
+                            <i class="bi {{ $item['icon'] }} d-lg-none d-xl-inline me-1"></i>
+                            <span>{{ $item['name'] }}</span>
                             @if($isActive)
                                 <span class="visually-hidden">(current)</span>
                             @endif
@@ -76,86 +99,63 @@
             </ul>
 
             <!-- Action Buttons -->
-            <div class="d-flex ms-lg-4 mt-3 mt-lg-0">
-                <!-- Cart Icon with Badge -->
-                <div class="dropdown me-3">
-                    <a href="#" class="position-relative text-brown-dark" 
+            <div class="navbar-actions d-flex align-items-center">
+                <!-- Cart with Dropdown -->
+                <div class="nav-cart dropdown me-3">
+                    <a href="#" class="nav-link-cart position-relative" 
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-cart3 fs-5"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-brown-light">
-                            3
-                            <span class="visually-hidden">items in cart</span>
-                        </span>
+                        @if($cartCount > 0)
+                        <span class="cart-badge">{{ $cartCount }}</span>
+                        @endif
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" 
-                        style="min-width: 300px;">
-                        <li class="dropdown-header bg-cream py-3">
+                    <div class="dropdown-menu dropdown-menu-end cart-dropdown">
+                        <div class="cart-header p-3">
                             <h6 class="mb-0 fw-bold">Your Cart</h6>
-                            <small>3 items - $24.50</small>
-                        </li>
-                        <li>
-                            <div class="dropdown-item-text">
-                                <div class="d-flex align-items-center py-2">
-                                    <div class="flex-shrink-0">
-                                        <div class="bg-brown-light text-white rounded-2 p-2">
-                                            <i class="bi bi-cup-hot"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-0">Artisan Cold Brew</h6>
-                                        <small class="text-muted">Qty: 1</small>
-                                    </div>
-                                    <div class="text-end">
-                                        <span class="fw-bold">$5.50</span>
+                            <small class="text-muted">{{ $cartCount }} items - $24.50</small>
+                        </div>
+                        <div class="cart-items p-3">
+                            <!-- Cart item example -->
+                            <div class="cart-item d-flex align-items-center mb-3">
+                                <div class="item-icon me-3">
+                                    <div class="bg-brown-light rounded-2 p-2">
+                                        <i class="bi bi-cup-hot text-white"></i>
                                     </div>
                                 </div>
+                                <div class="item-details flex-grow-1">
+                                    <h6 class="mb-0">Artisan Cold Brew</h6>
+                                    <small class="text-muted">Qty: 1 • $5.50</small>
+                                </div>
                             </div>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <div class="px-3 py-2">
-                                <a href="{{ url('/order/form') }}" class="btn btn-brown w-100 rounded-pill">
-                                    <i class="bi bi-cart-check me-2"></i> Checkout
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
+                        </div>
+                        <div class="cart-footer p-3 border-top">
+                            <a href="{{ url('/order/form') }}" class="btn btn-brown w-100">
+                                <i class="bi bi-cart-check me-2"></i> Checkout
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- User Account / Login -->
-                @if(auth()->check())
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" 
+                <!-- User / Login -->
+                @auth
+                    <div class="nav-user dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none" 
                            data-bs-toggle="dropdown">
-                            <div class="avatar me-2">
-                                <div class="bg-brown text-cream rounded-circle d-flex align-items-center justify-content-center" 
-                                     style="width: 36px; height: 36px;">
+                            <div class="user-avatar me-2">
+                                <div class="avatar-circle">
                                     <i class="bi bi-person-fill"></i>
                                 </div>
                             </div>
-                            <span class="d-none d-md-inline">Welcome, {{ auth()->user()->name }}</span>
+                            <span class="user-name d-none d-lg-inline">Hi, {{ auth()->user()->name }}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                            <li>
-                                <a class="dropdown-item" href="{{ url('/admin/dashboard') }}">
-                                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('profile') }}">
-                                    <i class="bi bi-person me-2"></i> My Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('orders') }}">
-                                    <i class="bi bi-receipt me-2"></i> My Orders
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ url('/admin/dashboard') }}">
+                                <i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form method="POST" action="{{ route('logout') }}" class="dropdown-item p-0">
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-link text-decoration-none text-danger w-100 text-start">
+                                    <button type="submit" class="dropdown-item">
                                         <i class="bi bi-box-arrow-right me-2"></i> Logout
                                     </button>
                                 </form>
@@ -163,113 +163,206 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-brown rounded-pill px-4 me-2">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
-                    </a>
-                    <a href="{{ url('/order/form') }}" class="btn btn-brown rounded-pill px-4">
-                        <i class="bi bi-cart3 me-1"></i> Order Now
-                    </a>
-                @endif
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('login') }}" class="btn btn-outline-brown btn-sm">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                        </a>
+                        <a href="{{ url('/order/form') }}" class="btn btn-brown btn-sm">
+                            <i class="bi bi-cart3 me-1"></i> Order Now
+                        </a>
+                    </div>
+                @endauth
             </div>
         </div>
     </div>
-
-    <!-- Progress Bar Indicator -->
-    <div class="nav-progress" id="navProgress"></div>
 </nav>
 
-<!-- Mobile Menu Overlay -->
-<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-
 <style>
-    /* Navbar Specific Styles */
+    /* === NAVBAR STYLES === */
+    :root {
+        --navbar-height: 70px;
+        --transition-speed: 0.3s;
+    }
+    
+    /* Base Navbar */
     #mainNavbar {
-        transition: all 0.3s ease;
+        height: var(--navbar-height);
+        background: rgba(255, 251, 245, 0.98);
         backdrop-filter: blur(10px);
-        background-color: rgba(255, 251, 245, 0.95) !important;
-        z-index: 1030;
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(224, 192, 151, 0.2);
+        box-shadow: 0 2px 15px rgba(60, 42, 33, 0.08);
+        transition: all var(--transition-speed) ease;
+        padding: 0;
     }
-
+    
     #mainNavbar.scrolled {
-        box-shadow: 0 5px 20px rgba(60, 42, 33, 0.1);
-        padding-top: 0.8rem;
-        padding-bottom: 0.8rem;
-        background-color: rgba(255, 251, 245, 0.98) !important;
+        height: 60px;
+        box-shadow: 0 5px 20px rgba(60, 42, 33, 0.12);
     }
-
+    
+    /* Logo/Brand */
+    .navbar-brand {
+        padding: 0;
+        color: var(--brown-dark) !important;
+    }
+    
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--brown), var(--brown-light));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+    }
+    
+    .brand-name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+    
+    .brand-subtitle {
+        font-size: 0.75rem;
+        color: var(--brown-light);
+        display: block;
+        line-height: 1;
+        margin-top: -2px;
+    }
+    
     /* Navigation Links */
-    .navbar-nav .nav-link {
+    .navbar-nav {
+        gap: 2px;
+    }
+    
+    .nav-link {
         color: var(--brown-dark) !important;
         font-weight: 500;
-        margin: 0 0.5rem;
+        font-size: 0.95rem;
         position: relative;
-        padding: 0.5rem 1rem !important;
+        transition: all var(--transition-speed) ease;
         border-radius: 8px;
-        transition: all 0.3s ease;
+        margin: 0 2px;
     }
-
-    .navbar-nav .nav-link:hover {
+    
+    .nav-link:hover {
         color: var(--brown-light) !important;
-        background-color: rgba(92, 61, 46, 0.05);
+        background: rgba(92, 61, 46, 0.05);
+        transform: translateY(-1px);
     }
-
-    .navbar-nav .nav-link.active {
+    
+    .nav-link.active {
         color: var(--brown-light) !important;
         font-weight: 600;
+        background: rgba(92, 61, 46, 0.08);
     }
-
-    .navbar-nav .nav-link.active::before {
+    
+    .nav-link.active::after {
         content: '';
         position: absolute;
-        bottom: 0;
+        bottom: -5px;
         left: 50%;
         transform: translateX(-50%);
-        width: 20px;
-        height: 3px;
+        width: 5px;
+        height: 5px;
         background: var(--brown-light);
-        border-radius: 2px;
-        transition: all 0.3s ease;
+        border-radius: 50%;
     }
-
-    /* Progress Bar */
-    .nav-progress {
+    
+    /* Cart */
+    .nav-cart {
+        position: relative;
+    }
+    
+    .nav-link-cart {
+        color: var(--brown-dark) !important;
+        padding: 8px !important;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--transition-speed) ease;
+    }
+    
+    .nav-link-cart:hover {
+        background: rgba(92, 61, 46, 0.05);
+        color: var(--brown-light) !important;
+    }
+    
+    .cart-badge {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--brown-light), var(--beige));
-        width: 0%;
-        transition: width 0.3s ease;
-        z-index: 1031;
+        top: -5px;
+        right: -5px;
+        background: var(--brown-light);
+        color: white;
+        font-size: 0.7rem;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        animation: badgePulse 2s infinite;
     }
-
-    /* Cart Badge */
-    .badge.bg-brown-light {
-        font-size: 0.6rem;
-        padding: 0.25rem 0.4rem;
-        animation: pulse 2s infinite;
+    
+    @keyframes badgePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
     }
-
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(184, 92, 56, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 5px rgba(184, 92, 56, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(184, 92, 56, 0);
-        }
-    }
-
-    /* Dropdown Styles */
-    .dropdown-menu {
-        border-radius: 15px;
-        border: 1px solid var(--cream);
+    
+    .cart-dropdown {
+        min-width: 280px;
+        border: 1px solid rgba(224, 192, 151, 0.3);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(60, 42, 33, 0.1);
         margin-top: 10px;
-        animation: slideDown 0.3s ease;
     }
-
+    
+    /* User Avatar */
+    .user-avatar {
+        display: flex;
+        align-items: center;
+    }
+    
+    .avatar-circle {
+        width: 36px;
+        height: 36px;
+        background: var(--cream);
+        border: 2px solid var(--beige);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--brown);
+        font-size: 1rem;
+        transition: all var(--transition-speed) ease;
+    }
+    
+    .user-name {
+        font-weight: 500;
+        color: var(--brown-dark);
+    }
+    
+    /* Action Buttons */
+    .btn-brown, .btn-outline-brown {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+    }
+    
+    /* Dropdown Menu */
+    .dropdown-menu {
+        border: 1px solid rgba(224, 192, 151, 0.3);
+        border-radius: 12px;
+        padding: 8px 0;
+        margin-top: 10px;
+        animation: slideDown 0.2s ease;
+    }
+    
     @keyframes slideDown {
         from {
             opacity: 0;
@@ -280,176 +373,134 @@
             transform: translateY(0);
         }
     }
-
+    
     .dropdown-item {
-        padding: 0.75rem 1.25rem;
-        transition: all 0.2s ease;
-        border-radius: 8px;
-        margin: 0.1rem 0.5rem;
-        width: auto;
-    }
-
-    .dropdown-item:hover {
-        background-color: var(--cream);
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        margin: 2px 8px;
         color: var(--brown-dark);
+        transition: all 0.2s ease;
     }
-
-    /* Mobile Menu */
-    .mobile-menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(60, 42, 33, 0.5);
-        backdrop-filter: blur(5px);
-        z-index: 1029;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
+    
+    .dropdown-item:hover {
+        background: var(--cream);
+        color: var(--brown);
     }
-
-    .mobile-menu-overlay.show {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Mobile Navbar Collapse */
+    
+    /* === RESPONSIVE STYLES === */
+    
+    /* Tablet (768px - 991px) */
     @media (max-width: 991.98px) {
-        #navbarNav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            max-width: 320px;
-            height: 100vh;
-            background: white;
-            padding: 80px 20px 20px;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            transition: right 0.3s ease;
-            z-index: 1030;
-            overflow-y: auto;
-        }
-
-        #navbarNav.show {
-            right: 0;
-        }
-
         .navbar-nav {
-            margin-bottom: 2rem;
+            margin: 20px 0;
+            gap: 5px;
         }
-
-        .navbar-nav .nav-link {
-            margin: 0.5rem 0;
-            padding: 1rem !important;
+        
+        .nav-link {
+            padding: 12px 20px !important;
+            margin: 5px 0;
             border-radius: 10px;
-            display: flex;
-            align-items: center;
         }
-
-        .navbar-nav .nav-link i {
-            width: 24px;
-            margin-right: 10px;
+        
+        .navbar-actions {
+            padding-top: 20px;
+            border-top: 1px solid rgba(224, 192, 151, 0.2);
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
         }
-
-        .mobile-menu-overlay.show + #navbarNav {
-            right: 0;
-        }
-
-        /* Mobile Cart & Actions */
-        .d-flex.ms-lg-4 {
-            flex-direction: column;
-            gap: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--cream);
-        }
-
-        .dropdown-menu {
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            width: 90%;
-            max-width: 350px;
-        }
-    }
-
-    /* Desktop Enhancements */
-    @media (min-width: 992px) {
-        .navbar-nav .nav-link {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .navbar-nav .nav-link::after {
-            content: '';
+        
+        .navbar-collapse {
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(60, 42, 33, 0.1);
             position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--brown-light);
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            transition: width 0.3s ease;
-        }
-
-        .navbar-nav .nav-link:hover::after {
-            width: 80%;
-        }
-
-        .navbar-nav .nav-link.active::after {
-            width: 80%;
+            top: var(--navbar-height);
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
     }
-
-    /* Animation for navbar items */
-    .nav-item {
-        opacity: 0;
-        transform: translateY(-10px);
-        animation: fadeInDown 0.5s ease forwards;
-    }
-
-    @keyframes fadeInDown {
-        to {
-            opacity: 1;
-            transform: translateY(0);
+    
+    /* Mobile (≤ 767px) */
+    @media (max-width: 767.98px) {
+        #mainNavbar {
+            padding: 0 10px;
+        }
+        
+        .navbar-brand {
+            font-size: 1.2rem;
+        }
+        
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            font-size: 1.1rem;
+        }
+        
+        .nav-link {
+            font-size: 1rem;
+            padding: 14px 20px !important;
+        }
+        
+        .navbar-actions {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .nav-cart {
+            margin-bottom: 10px;
+        }
+        
+        .btn-brown, .btn-outline-brown {
+            width: 100%;
+            justify-content: center;
         }
     }
-
-    /* Stagger animation for nav items */
-    .nav-item:nth-child(1) { animation-delay: 0.1s; }
-    .nav-item:nth-child(2) { animation-delay: 0.2s; }
-    .nav-item:nth-child(3) { animation-delay: 0.3s; }
-    .nav-item:nth-child(4) { animation-delay: 0.4s; }
-    .nav-item:nth-child(5) { animation-delay: 0.5s; }
-    .nav-item:nth-child(6) { animation-delay: 0.6s; }
-
-    /* Focus styles for accessibility */
-    .nav-link:focus,
-    .dropdown-toggle:focus,
-    .btn:focus {
-        outline: 2px solid var(--brown-light);
-        outline-offset: 2px;
-        box-shadow: 0 0 0 3px rgba(92, 61, 46, 0.1);
+    
+    /* Small Mobile (≤ 375px) */
+    @media (max-width: 375px) {
+        .brand-name {
+            font-size: 1.2rem;
+        }
+        
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+        }
+        
+        .nav-link {
+            font-size: 0.95rem;
+            padding: 12px 16px !important;
+        }
     }
-
-    /* Dark mode support */
+    
+    /* Dark Mode Support */
     @media (prefers-color-scheme: dark) {
         #mainNavbar {
-            background-color: rgba(30, 25, 20, 0.95) !important;
-            color: var(--cream);
+            background: rgba(30, 25, 20, 0.98);
+            border-bottom-color: rgba(92, 61, 46, 0.3);
         }
         
-        #mainNavbar.scrolled {
-            background-color: rgba(30, 25, 20, 0.98) !important;
-        }
-        
-        .navbar-nav .nav-link {
+        .nav-link, .navbar-brand, .user-name, .nav-link-cart {
             color: var(--cream) !important;
         }
         
+        .avatar-circle {
+            background: var(--brown);
+            border-color: var(--brown-light);
+            color: var(--cream);
+        }
+        
+        .navbar-collapse {
+            background: var(--brown-dark);
+        }
+        
         .dropdown-menu {
-            background-color: var(--brown-dark);
+            background: var(--brown-dark);
             border-color: var(--brown);
         }
         
@@ -458,7 +509,55 @@
         }
         
         .dropdown-item:hover {
-            background-color: var(--brown);
+            background: var(--brown);
+        }
+    }
+    
+    /* Animation for navbar items */
+    .nav-item {
+        opacity: 0;
+        animation: fadeInNav 0.5s ease forwards;
+    }
+    
+    @keyframes fadeInNav {
+        to {
+            opacity: 1;
+        }
+    }
+    
+    /* Stagger delay */
+    .nav-item:nth-child(1) { animation-delay: 0.1s; }
+    .nav-item:nth-child(2) { animation-delay: 0.15s; }
+    .nav-item:nth-child(3) { animation-delay: 0.2s; }
+    .nav-item:nth-child(4) { animation-delay: 0.25s; }
+    .nav-item:nth-child(5) { animation-delay: 0.3s; }
+    .nav-item:nth-child(6) { animation-delay: 0.35s; }
+    
+    /* Hover effects for desktop */
+    @media (min-width: 992px) {
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--brown-light);
+            border-radius: 2px;
+            transition: width var(--transition-speed) ease;
+        }
+        
+        .nav-link:hover::before {
+            width: 20px;
+        }
+        
+        .nav-link.active::before {
+            width: 20px;
+        }
+        
+        .nav-link.active::after {
+            display: none;
         }
     }
 </style>
@@ -466,27 +565,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const navbar = document.getElementById('mainNavbar');
-        const navProgress = document.getElementById('navProgress');
-        const mobileOverlay = document.getElementById('mobileMenuOverlay');
-        const navToggler = document.querySelector('.navbar-toggler');
-        const navbarCollapse = document.getElementById('navbarNav');
-        
-        // Scroll effect with progress indicator
         let lastScrollTop = 0;
         
+        // Scroll effect - hide/show navbar
         window.addEventListener('scroll', function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
             
-            // Navbar background on scroll
-            if (scrollTop > 50) {
+            // Add scrolled class
+            if (scrollTop > 20) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
             
-            // Hide/show navbar on scroll direction
+            // Hide on scroll down, show on scroll up
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 // Scrolling down
                 navbar.style.transform = 'translateY(-100%)';
@@ -497,82 +589,17 @@
             
             lastScrollTop = scrollTop;
             
-            // Update progress bar
-            if (navProgress) {
-                navProgress.style.width = scrollPercent + '%';
-            }
-            
-            // Highlight active section
-            highlightActiveNavLink();
+            // Update active nav link
+            updateActiveNavLink();
         });
         
-        // Mobile menu handling
-        if (navToggler && navbarCollapse && mobileOverlay) {
-            navToggler.addEventListener('click', function() {
-                const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                
-                if (!isExpanded) {
-                    // Opening mobile menu
-                    navbarCollapse.classList.add('show');
-                    mobileOverlay.classList.add('show');
-                    document.body.style.overflow = 'hidden';
-                    
-                    // Animate in nav items
-                    const navItems = document.querySelectorAll('.nav-item');
-                    navItems.forEach((item, index) => {
-                        item.style.animationDelay = (index * 0.1) + 's';
-                        item.classList.remove('animated');
-                        setTimeout(() => {
-                            item.classList.add('animated');
-                        }, 10);
-                    });
-                } else {
-                    // Closing mobile menu
-                    closeMobileMenu();
-                }
-            });
-            
-            // Close mobile menu when clicking overlay
-            mobileOverlay.addEventListener('click', closeMobileMenu);
-            
-            // Close mobile menu when clicking a link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (window.innerWidth < 992) {
-                        if (!this.classList.contains('dropdown-toggle')) {
-                            closeMobileMenu();
-                        }
-                    }
-                });
-            });
-            
-            // Close on escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && navbarCollapse.classList.contains('show')) {
-                    closeMobileMenu();
-                }
-            });
-        }
-        
-        function closeMobileMenu() {
-            navbarCollapse.classList.remove('show');
-            mobileOverlay.classList.remove('show');
-            document.body.style.overflow = '';
-            
-            // Reset toggler state
-            const toggler = document.querySelector('.navbar-toggler');
-            if (toggler) {
-                toggler.setAttribute('aria-expanded', 'false');
-            }
-        }
-        
-        // Highlight active nav link based on scroll position
-        function highlightActiveNavLink() {
+        // Update active nav link based on scroll position
+        function updateActiveNavLink() {
             const sections = document.querySelectorAll('section[id], main[id], div[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.nav-link[data-nav]');
+            const scrollPosition = window.scrollY + 100;
             
             let currentSection = '';
-            const scrollPosition = window.scrollY + 100;
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
@@ -586,52 +613,94 @@
             
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                const href = link.getAttribute('href');
+                const navKey = link.getAttribute('data-nav');
                 
-                if (href && href.includes('#')) {
-                    const targetId = href.split('#')[1];
-                    if (targetId === currentSection) {
-                        link.classList.add('active');
-                    }
-                } else if (currentSection === '' && 
-                          (href === '/' || href.includes('home'))) {
+                // Check if current section matches nav key
+                if (currentSection && currentSection.includes(navKey)) {
                     link.classList.add('active');
                 }
             });
         }
         
-        // Initialize active link on page load
-        highlightActiveNavLink();
+        // Mobile menu handling
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
         
-        // Dropdown hover effect for desktop
-        if (window.innerWidth >= 992) {
-            const dropdowns = document.querySelectorAll('.dropdown');
-            
-            dropdowns.forEach(dropdown => {
-                dropdown.addEventListener('mouseenter', function() {
-                    const toggle = this.querySelector('.dropdown-toggle');
-                    if (toggle) {
-                        const bsDropdown = new bootstrap.Dropdown(toggle);
-                        bsDropdown.show();
-                    }
-                });
+        if (navbarToggler && navbarCollapse) {
+            navbarToggler.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
                 
-                dropdown.addEventListener('mouseleave', function() {
-                    const toggle = this.querySelector('.dropdown-toggle');
-                    if (toggle) {
-                        const bsDropdown = new bootstrap.Dropdown(toggle);
-                        bsDropdown.hide();
+                if (!isExpanded) {
+                    // Animate in nav items
+                    const navItems = document.querySelectorAll('.nav-item');
+                    navItems.forEach((item, index) => {
+                        item.style.animationDelay = (index * 0.05) + 's';
+                        item.style.animation = 'fadeInNav 0.3s ease forwards';
+                    });
+                }
+            });
+            
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 992) {
+                        navbarCollapse.classList.remove('show');
+                        navbarToggler.setAttribute('aria-expanded', 'false');
                     }
                 });
             });
         }
         
-        // Add smooth scroll to anchor links
+        // Initialize active link
+        updateActiveNavLink();
+        
+        // Add hover effect for dropdowns on desktop
+        if (window.innerWidth >= 992) {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('mouseenter', function() {
+                    const toggle = this.querySelector('[data-bs-toggle="dropdown"]');
+                    if (toggle) {
+                        const bsDropdown = bootstrap.Dropdown.getInstance(toggle) || 
+                                          new bootstrap.Dropdown(toggle);
+                        bsDropdown.show();
+                    }
+                });
+                
+                dropdown.addEventListener('mouseleave', function() {
+                    const toggle = this.querySelector('[data-bs-toggle="dropdown"]');
+                    if (toggle) {
+                        const bsDropdown = bootstrap.Dropdown.getInstance(toggle);
+                        if (bsDropdown) {
+                            setTimeout(() => {
+                                if (!this.matches(':hover')) {
+                                    bsDropdown.hide();
+                                }
+                            }, 100);
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Cart badge animation
+        const cartBadge = document.querySelector('.cart-badge');
+        if (cartBadge) {
+            setInterval(() => {
+                cartBadge.style.animation = 'none';
+                setTimeout(() => {
+                    cartBadge.style.animation = 'badgePulse 2s infinite';
+                }, 10);
+            }, 4000);
+        }
+        
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
                 
-                if (href !== '#' && document.querySelector(href)) {
+                if (href !== '#' && href.startsWith('#') && document.querySelector(href)) {
                     e.preventDefault();
                     
                     const target = document.querySelector(href);
@@ -642,32 +711,7 @@
                         top: targetPosition,
                         behavior: 'smooth'
                     });
-                    
-                    // Update URL without page reload
-                    history.pushState(null, null, href);
                 }
-            });
-        });
-        
-        // Update cart badge count (example)
-        function updateCartBadge(count) {
-            const badge = document.querySelector('.badge.bg-brown-light');
-            if (badge) {
-                badge.textContent = count;
-                
-                // Animation
-                badge.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    badge.style.transform = 'scale(1)';
-                }, 300);
-            }
-        }
-        
-        // Example: Update cart when adding items
-        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const currentCount = parseInt(document.querySelector('.badge.bg-brown-light').textContent);
-                updateCartBadge(currentCount + 1);
             });
         });
         
@@ -677,18 +721,20 @@
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
                 if (window.innerWidth >= 992) {
-                    // Reset mobile menu state on desktop
-                    document.body.style.overflow = '';
-                    if (mobileOverlay) mobileOverlay.classList.remove('show');
-                    if (navbarCollapse) navbarCollapse.classList.remove('show');
+                    // Ensure mobile menu is closed on desktop
+                    if (navbarCollapse) {
+                        navbarCollapse.classList.remove('show');
+                    }
+                    if (navbarToggler) {
+                        navbarToggler.setAttribute('aria-expanded', 'false');
+                    }
                 }
             }, 250);
         });
         
-        // Add animation class to navbar on load
+        // Initialize navbar animation
         setTimeout(() => {
             navbar.style.opacity = '1';
-            navbar.style.transform = 'translateY(0)';
         }, 100);
     });
 </script>
