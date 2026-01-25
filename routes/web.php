@@ -18,7 +18,7 @@ Route::get('/menu/detail', function () {
     return view('menu.show');
 });
 
-Route::get('/order', function () {
+Route::get('/order/form', function () {
     return view('order.form');
 });
 
