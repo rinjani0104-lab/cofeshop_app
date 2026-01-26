@@ -18,10 +18,6 @@ Route::get('/menu', function () {
     return view('menu.index', compact('coffeeItems', 'teaItems'));
 });
 
-Route::get('/menu/detail', function () {
-    return view('menu.show');
-});
-
 Route::get('/order/form', function () {
     return view('order.form');
 });
@@ -36,6 +32,16 @@ Route::get('/about', function () {
 
 Route::get('/contact', function () {
     return view('contact');
+});
+
+Route::get('/login', function(){
+    return view('auth.login');
+});
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/admin/dasboard', function(){
+        return view('admin.dashboard');
+    });
 });
 
 Auth::routes();
