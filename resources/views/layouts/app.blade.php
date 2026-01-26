@@ -19,58 +19,19 @@
     <!-- Navigation -->
     @include('components.navbar')
 
+    @include('components.toast')
+
+    @include('components.modal')
+
     <!-- Main Content -->
     <main>
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-brown-dark text-cream pt-5 pb-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h3 class="fw-bold mb-3">
-                        <i class="bi bi-cup-hot-fill me-2"></i>Cafein Holic
-                    </h3>
-                    <p class="mb-4">Premium coffee experiences crafted with passion since 2015. We source the finest beans and create moments worth savoring.</p>
-                    <div class="social-links">
-                        <a href="#" class="text-cream me-3"><i class="bi bi-facebook fs-5"></i></a>
-                        <a href="#" class="text-cream me-3"><i class="bi bi-instagram fs-5"></i></a>
-                        <a href="#" class="text-cream me-3"><i class="bi bi-twitter fs-5"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
-                    <h5 class="fw-bold mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{{ url('/') }}" class="text-cream text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="{{ url('/menu') }}" class="text-cream text-decoration-none">Menu</a></li>
-                        <li class="mb-2"><a href="{{ url('/order/form') }}" class="text-cream text-decoration-none">Order</a></li>
-                        <li class="mb-2"><a href="{{ url('/reservation') }}" class="text-cream text-decoration-none">Reservation</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                    <h5 class="fw-bold mb-3">Contact Info</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> 123 Coffee Street, Jakarta</li>
-                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> (021) 555-7890</li>
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> hello@cafeinholic.com</li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                    <h5 class="fw-bold mb-3">Opening Hours</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">Mon-Fri: 7:00 AM - 10:00 PM</li>
-                        <li class="mb-2">Saturday: 8:00 AM - 11:00 PM</li>
-                        <li class="mb-2">Sunday: 8:00 AM - 9:00 PM</li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4 border-cream-light">
-            <div class="text-center pt-2">
-                <p class="mb-0">&copy; 2023 Cafein Holic. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('components.footer')
+
+    @include('components.loading')
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
