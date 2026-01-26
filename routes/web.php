@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
+Route::get('/', function(){
+    return view('welcome');
+});
+
+Route::get('/home', function () {
     $featuredItems = [];
     return view('home', compact('featuredItems'));
 });
