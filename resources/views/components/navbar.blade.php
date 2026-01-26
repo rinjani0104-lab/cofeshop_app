@@ -54,7 +54,7 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNavbar">
     <div class="container">
         <!-- Logo / Brand -->
-        <a class="navbar-brand fw-bold" href="{{ url('/') }}">
+        <a class="navbar-brand fw-bold" href="{{ route('home') }}">
             <div class="d-flex align-items-center">
                 <div class="logo-icon me-2">
                     <i class="bi bi-cup-hot-fill"></i>
@@ -65,6 +65,41 @@
                 </div>
             </div>
         </a>
+
+        <!-- Navigation Items -->
+<ul class="navbar-nav mx-auto">
+    <!-- Home Link -->
+    <li class="nav-item mx-1">
+        <a class="nav-link px-3 py-2 rounded {{ request()->is('home') ? 'active' : '' }}" 
+           href="{{ route('home') }}"
+           data-nav="home">
+            <i class="bi bi-house d-lg-none d-xl-inline me-1"></i>
+            <span>Home</span>
+        </a>
+    </li>
+    
+    <!-- Menu Link -->
+    <li class="nav-item mx-1">
+        <a class="nav-link px-3 py-2 rounded {{ request()->is('menu*') ? 'active' : '' }}" 
+           href="{{ route('menu.index') }}"
+           data-nav="menu">
+            <i class="bi bi-cup-hot d-lg-none d-xl-inline me-1"></i>
+            <span>Menu</span>
+        </a>
+    </li>
+    
+    <!-- Order Link -->
+    <li class="nav-item mx-1">
+        <a class="nav-link px-3 py-2 rounded {{ request()->is('order*') ? 'active' : '' }}" 
+           href="{{ route('order.form') }}"
+           data-nav="order">
+            <i class="bi bi-cart3 d-lg-none d-xl-inline me-1"></i>
+            <span>Order</span>
+        </a>
+    </li>
+    
+    <!-- Continue other links... -->
+</ul>
 
         <!-- Mobile Toggle Button -->
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" 
