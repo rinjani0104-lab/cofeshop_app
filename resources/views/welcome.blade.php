@@ -497,7 +497,7 @@
                 
                 <div class="col-lg-3 col-md-6">
                     <div class="menu-card fade-in" style="animation-delay: 0.2s">
-                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <img src="https://www.texanerin.com/content/uploads/2023/03/hazelnut-latte-image.jpg" 
                              class="card-img-top" 
                              alt="Hazelnut Latte">
                         <div class="card-body p-4">
@@ -513,7 +513,7 @@
                 
                 <div class="col-lg-3 col-md-6">
                     <div class="menu-card fade-in" style="animation-delay: 0.4s">
-                        <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <img src="https://images.getrecipekit.com/20241221124425-img-5769-20-1.jpg?width=650&quality=90&" 
                              class="card-img-top" 
                              alt="Matcha Frappé">
                         <div class="card-body p-4">
