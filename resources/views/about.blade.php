@@ -148,7 +148,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-card text-center">
                         <div class="team-img mb-4">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                            <img src="https://images.unsplash.com/photo-1609226283320-e88231dfcbb6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8U2FyYWglMjBNaWxsZXJ8ZW58MHx8MHx8fDA%3D" 
                                  class="img-fluid rounded-circle" 
                                  alt="Sarah Miller" 
                                  style="width: 150px; height: 150px; object-fit: cover;">

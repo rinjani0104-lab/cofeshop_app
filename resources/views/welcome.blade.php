@@ -529,7 +529,7 @@
                 
                 <div class="col-lg-3 col-md-6">
                     <div class="menu-card fade-in" style="animation-delay: 0.6s">
-                        <img src="https://images.unsplash.com/photo-1570196911496-66bd58a5b7b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <img src="https://images.unsplash.com/photo-1662047102608-a6f2e492411f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FyYW1lbCUyMG1hY2NoaWF0b3xlbnwwfHwwfHx8MA%3D%3D" 
                              class="card-img-top" 
                              alt="Caramel Macchiato">
                         <div class="card-body p-4">
