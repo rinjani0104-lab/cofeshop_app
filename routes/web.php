@@ -20,7 +20,7 @@ Route::get('/', fn () => view('welcome'));
 
 Route::get('/home', fn () => view('home', [
     'featuredItems' => [],
-]));
+]))->name('home');
 
 Route::get('/menu', function () {
     $coffeeItems = Menu::where('category', 'coffee')->get();
