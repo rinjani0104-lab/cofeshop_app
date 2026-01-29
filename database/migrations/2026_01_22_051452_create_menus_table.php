@@ -13,11 +13,24 @@ return new class extends Migration
 {
     Schema::create('menus', function (Blueprint $table) {
         $table->id();
-        $table->string('nama');
+        $table->string('name');
         $table->string('category');
-        $table->text('deskripsi')->nullable();
-        $table->integer('harga');
-        $table->string('gambar')->nullable();
+        $table->text('description')->nullable();
+        $table->integer('price');
+        $table->string('image')->nullable();
+
+        $table->boolean('is_featured')->default(false);
+        $table->boolean('is_popular')->default(false);
+        $table->boolean('is_new')->nullable();
+
+        $table->decimal('rating', 2, 1)->default(0);
+        $table->integer('review_count')->default(0);
+        $table->integer('calories')->nullable();
+        $table->integer('prepation_time')->nullable();
+
+        $table->longText('ingredients')->nullable();
+        $table->longText('customizations')->nullable();
+
         $table->timestamps();
     });
 }
