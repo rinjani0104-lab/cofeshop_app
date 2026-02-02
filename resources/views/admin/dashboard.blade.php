@@ -388,7 +388,7 @@
                     <div class="chart-container">
                         <h5 class="fw-bold mb-4">Top Selling Items</h5>
                         <div class="list-group list-group-flush">
-                            @foreach($topItems as $item)
+                            @foreach($topItems ?? [] as $item)
                             <div class="list-group-item border-0 px-0 py-3">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
@@ -429,7 +429,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($recentOrders as $order)
+                                    @foreach($recentOrders ?? [] as $order)
                                     <tr>
                                         <td class="fw-medium">#{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</td>
                                         <td>{{ $order->customer_name }}</td>
@@ -461,7 +461,7 @@
                     <div class="chart-container">
                         <h5 class="fw-bold mb-4">Today's Reservations</h5>
                         <div class="list-group list-group-flush">
-                            @foreach($todaysReservations as $reservation)
+                            @foreach($todaysReservations ?? [] as $reservation)
                             <div class="list-group-item border-0 px-0 py-3">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\MenuController;
 use App\Models\Menu;
 
 Route::get('/login', [LoginController::class, 'show'])->name('login');
@@ -22,11 +24,7 @@ Route::get('/home', fn () => view('home', [
     'featuredItems' => [],
 ]))->name('home');
 
-Route::get('/menu', function () {
-    $coffeeItems = Menu::where('category', 'coffee')->get();
-    $teaItems = Menu::where('category', 'tea')->get();
-    return view('menu.index', compact('coffeeItems', 'teaItems'));
-});
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 
 Route::get('/order/form', fn () => view('order.form'));
 
@@ -36,6 +34,6 @@ Route::get('/about', fn() =>view('about'));
 
 Route::get('/contact', fn () => view('contact'));
 
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/dasboard', fn () => view('admin.dashboard'));
-});
+Route::get('admin/dashboard', [DashboardController::class, 'index'])
+->middleware(['auth', 'isAdmin'])
+->name('admin.dashboard');
